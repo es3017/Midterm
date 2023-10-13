@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Drums CRUD Midterm</title>
+</head>
+<body>
+    <h1>Drums CRUD Midterm</h1>
+    <h2>Current Drums List</h2>
+    <ul id="drumList"></ul>
+
+    <script>
+        var drums = [
+            { name: "Snare Drum", type: "Snare" },
+            { name: "Bass Drum", type: "Kick" },
+            { name: "Hi-Hat", type: "Cymbal" }
+        ];
+
+        function createDrum() {
+            var drumName = document.getElementById("drumName").value;
+            var drumType = document.getElementById("drumType").value;
+            var newDrum = { name: drumName, type: drumType };
+            drums.push(newDrum);
+            refreshDrumList();
+        }
+
+        function refreshDrumList() {
+            var drumList = document.getElementById("drumList");
+            drumList.innerHTML = "";
+            drums.forEach(function (drum, index) {
+                var li = document.createElement("li");
+                li.textContent = drum.name;
+                drumList.appendChild(li);
+            });
+        }
+
+        function readDrum() {
+            var searchName = document.getElementById("searchDrumName").value;
+            var drum = drums.find(function (d) {
+                return d.name === searchName;
+            });
+            if (drum) {
+                var drumDetails = document.getElementById("drumDetails");
+                drumDetails.innerHTML = `Name: ${drum.name}<br>Type: ${drum.type}`;
+            } else {
+                alert("Drum not found!");
+            }
+        }
+
+        function updateDrum() {
+            var searchName = document.getElementById("updateDrumName").value;
+            var newType = document.getElementById("newDrumType").value;
+            var drum = drums.find(function (d) {
+                return d.name === searchName;
+            });
+            if (drum) {
+                drum.type = newType;
+                refreshDrumList();
+            } else {
+                alert("Drum not found!");
+            }
+        }
+
+        function deleteDrum() {
+            var searchName = document.getElementById("deleteDrumName").value;
+            var index = drums.findIndex(function (d) {
+                return d.name === searchName;
+            });
+            if (index !== -1) {
+                drums.splice(index, 1);
+                refreshDrumList();
+            } else {
+                alert("Drum not found!");
+            }
+        }
+
+        refreshDrumList();
+    </script>
+
+    <h2>Create</h2>
+    <label for="drumName">Drum Name:</label>
+    <input type="text" id="drumName" placeholder="Enter Drum Name">
+    <label for="drumType">Drum Type:</label>
+    <input type="text" id="drumType" placeholder="Enter Drum Type">
+    <button onclick="createDrum()">Create</button>
+
+    <h2>Read</h2>
+    <label for="searchDrumName">Enter Drum Name:</label>
+    <input type="text" id="searchDrumName" placeholder="Search by Drum Name">
+    <button onclick="readDrum()">Read</button>
+    <div id="drumDetails"></div>
+
+    <h2>Update</h2>
+    <label for="updateDrumName">Enter Drum Name:</label>
+    <input type="text" id="updateDrumName" placeholder="Search by Drum Name">
+    <label for "newDrumType">New Drum Type:</label>
+    <input type="text" id="newDrumType" placeholder="Enter New Drum Type">
+    <button onclick="updateDrum()">Update</button>
+
+    <h2>Delete</h2>
+    <label for="deleteDrumName">Enter Drum Name:</label>
+    <input type="text" id="deleteDrumName" placeholder="Search by Drum Name">
+    <button onclick="deleteDrum()">Delete</button>
+</body>
+</html>
